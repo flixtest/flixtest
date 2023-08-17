@@ -1,0 +1,45 @@
+
+Add a permission set using script:
+-----------------------------------------
+
+String userId = UserInfo.getUserId();
+String permSetId = [SELECT Id FROM PermissionSet WHERE Label = 'Contract Clauses and Clauses Permission' LIMIT 1].Id; 
+if (permSetId !=null){
+	List <PermissionSetAssignment> permSetCheck = [SELECT Id from PermissionSetAssignment WHERE PermissionSetId = : permSetId
+										AND AssigneeId = : userId];
+	If (permSetCheck.size()==0){
+		PermissionSetAssignment psa = new PermissionSetAssignment
+			(PermissionSetId = permSetId, AssigneeId = userId);
+		insert psa;
+	}
+}
+
+String userId = UserInfo.getUserId();
+String permSetId = [SELECT Id FROM PermissionSet WHERE Label = 'Account Contracts Permission' LIMIT 1].Id; 
+if (permSetId !=null){
+	List <PermissionSetAssignment> permSetCheck = [SELECT Id from PermissionSetAssignment WHERE PermissionSetId = : permSetId
+										AND AssigneeId = : userId];
+	If (permSetCheck.size()==0){
+		PermissionSetAssignment psa = new PermissionSetAssignment
+			(PermissionSetId = permSetId, AssigneeId = userId);
+		insert psa;
+	}
+}
+
+
+Remove a permission set using script:
+----------------------------------------------------
+
+String userId = UserInfo.getUserId();
+String permSetId = [SELECT Id FROM PermissionSet WHERE Label = 'Contract Clauses and Clauses Permission' LIMIT 1].Id;
+If (permSetId != null){
+	delete [SELECT Id from PermissionSetAssignment WHERE PermissionSetId = : permSetId AND AssigneeId = : userId];
+}
+
+
+String userId = UserInfo.getUserId();
+String permSetId = [SELECT Id FROM PermissionSet WHERE Label = 'Account Contracts Permission' LIMIT 1].Id;
+If (permSetId != null){
+	delete [SELECT Id from PermissionSetAssignment WHERE PermissionSetId = : permSetId AND AssigneeId = : userId];
+}
+s
